@@ -1,0 +1,56 @@
+#!/bin/bash
+#===========colors=========
+red=`tput setaf 1`
+green=`tput setaf 2`
+Orange=`tput setaf 3`
+blue=`tput setaf 4`
+move=`tput setaf 5`
+forquas=`tput setaf 6`
+white=`tput setaf 7`
+reset=`tput sgr0`
+#===========================
+echo "enter name databse to connect"
+read name_database
+if [ -d "../database/$name_database" ]
+then
+   echo "$(tput setaf 2) the connection is successful $name_database ${reset}"	
+   export name_database
+   select choice in "create table" "list table" "drop table" "insert into table" "select column" "delet row" "update from table" "select * from table" "select row" "exit"
+   do
+   case $REPLY in
+   1) echo "$(tput setaf 3) create table ${reset}"
+    ./create_table
+   ;;
+   2) echo "$(tput setaf 3) list table ${reset}"
+    	./list_tables
+   ;;
+   3) echo "$(tput setaf 3) drop table ${reset}"
+     ./drop_table
+   ;;
+   4) echo "$(tput setaf 3) insert into table ${reset}"
+      ./insert_table
+   ;;
+   5) echo "$(tput setaf 3) select from table ${reset}"
+    ./selectcolumn
+   ;;
+   6) echo "$(tput setaf 3) delet row ${reset}"
+       ./delet_row	   
+   ;;
+   7) echo "$(tput setaf 3) update from table ${reset}"
+     ./update_table	   
+   ;;
+   8) echo "$(tput setaf 3) select * from table ${reset}"
+     ./select_table
+   ;;
+   9) echo "$(tput setaf 3) select row ${reset}"
+     ./select_row
+   ;;
+
+   10) exit
+   ;;	
+   *) echo "$(tput setaf 1) invalid choce ${reset}"
+   esac
+   done
+else
+     echo "$(tput setaf 1) database is not find ${reset}"
+fi

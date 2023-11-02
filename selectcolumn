@@ -1,0 +1,16 @@
+#!/bin/bash
+#===========colors=========
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+#===============================
+echo "$(tput setaf 2) Enter Table Name: ${reset}"
+read name_table
+if [ -f "../database/$name_database/$name_table" ]
+then
+echo "$(tput setaf 2) Enter Column Number: ${reset}"
+read column_no
+awk -F: '{print $'$column_no'}' ../database/$name_database/$name_table
+else
+echo "$(tput setaf 1) Error this table is not exists ${reset}"
+fi

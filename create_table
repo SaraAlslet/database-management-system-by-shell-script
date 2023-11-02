@@ -1,0 +1,50 @@
+#!/bin/bash
+#===========colors=========
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+#===========================
+echo " enter table name"
+read name_table
+if [ -f "../database/$name_database/$name_table" ]
+then
+   echo "$(tput setaf 2) file is already ${reset}"
+else
+     touch ../database/$name_database/$name_table
+     echo "$(tput setaf 2) enter number of column ${reset}"
+     read num_col
+     echo "$(tput setaf 2) enter name primary key  the primary key is the frist column ${reset}"
+     read pr_k
+     echo "$(tput setaf 2) enter data type primary key (int) or (char) ${reset}"
+     read pr_type
+     column[0]="$pr_k"
+     data_type[0]="$pr_type"
+     i=1
+  while [ $i -lt $num_col ]
+  do
+	  echo "$(tput setaf 2) enter name column ${reset}"
+    read name_col
+    column[$i]=":$name_col"
+    echo "enter data type $name_col (int) or (char) "
+    read type
+    if [ $type = "int" ] || [ $type = "char" ]
+      then
+          data_type[$i]=":$type"
+      else
+          echo "data type not found enter agin"
+          read type
+          if [ $type = "int" ] || [ $type = "char" ]
+            then
+                data_type[$i]=":$type"
+            else
+              echo "data type is char defult"
+               type="char"
+              data_type[$i]=":$type"
+          fi 
+    fi
+    let i=$i+1
+  done 
+  echo ${column[*]} >  ../database/$name_database/$name_table
+  echo ${data_type[*]} >>  ../database/$name_database/$name_table
+  echo ${column[*]}
+fi

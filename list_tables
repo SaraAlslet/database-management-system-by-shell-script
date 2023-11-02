@@ -1,0 +1,2 @@
+#!/bin/bash
+ls ../database/$name_database

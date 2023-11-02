@@ -1,0 +1,25 @@
+#!/bin/bash
+select choice in "create database" "list database" "connect to database" "drop database" "rename database" "exit"
+do
+case $REPLY in
+1) echo "create database"
+   ./create_database	
+;;
+2) echo "list database"
+    ./list_database   	
+;;
+3) echo "connect to database"
+  ./connect_to_database
+   echo "out connect database" 
+;;
+4) echo "drop database"
+    ./drop_database
+;;
+5) echo "rename database"
+   ./rename_database
+;;
+6)exit
+;;
+*) echo invalid choce
+esac
+done

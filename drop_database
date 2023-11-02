@@ -1,0 +1,4 @@
+#!/bin/bash
+echo "enter name database"
+read name
+rm -r ../database/$name

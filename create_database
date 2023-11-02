@@ -1,0 +1,21 @@
+#!/bin/bash
+#===========colors=========
+red=`tput setaf 1`
+green=`tput setaf 2`
+Orange=`tput setaf 3`
+#blue= `tput setaf 4`
+move=`tput setaf 5`
+forquas=`tput setaf 6`
+white=`tput setaf 7`
+reset=`tput sgr0`
+#======create database
+echo "enter name database"
+read name
+mkdir ../database/$name
+if [[ $? == 0 ]]
+then
+    echo "$(tput setaf 2) Database Created Successfully ${reset}"
+
+else
+    echo "$(tput setaf 1) Error Database $name is found please choose another name ${reset}"
+fi

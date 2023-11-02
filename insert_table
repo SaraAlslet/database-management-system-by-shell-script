@@ -1,0 +1,105 @@
+#!/bin/bash 
+shopt -s extglob;
+read -p "Enter the name of the table " name_table
+if [ -f "../database/$name_database/$name_table" ]
+then
+
+
+     x=0
+     num_fild=$(awk 'BEGIN{FS=":";i=0}{if(NR==1)i=NF}END{ print i }' ../database/$name_database/$name_table)
+     #echo "$num_fild"
+     while [ $x -lt  $num_fild ]
+     do 
+        let x=$x+1
+        coul=$(awk -v i=$x 'BEGIN{FS=":";a=""}{if(NR==1) a=$i }END{print a} ' ../database/$name_database/$name_table)
+        let x=$x-1
+        col_name[x]=$coul
+        let x=$x+1
+     done
+     
+     
+    x=0
+    while [ $x -lt  $num_fild ]
+     do 
+        let x=$x+1
+        data=$(awk -v i=$x 'BEGIN{FS=":";a=""}{if(NR==2) a=$i }END{print a} ' ../database/$name_database/$name_table)
+        let x=$x-1
+        data_name[x]=$data
+        let x=$x+1
+     done
+     
+     
+    
+     
+     type_pk="no"
+     checkpk="no"
+     p_k="no"
+     while [ $p_k == "no" ]
+         do
+           echo "enter ${col_name[0]}  is primary key data type is ${data_name[0]} "
+           read value
+           
+           checkpk=$(awk -v n=$value 'BEGIN{FS=":";i="yes"}{if($1==n)i="no"}END{print i }' ../database/$name_database/$name_table)
+           
+           
+           if [ ${data_name[0]} = "int" ]
+            then
+                 type_int="[0-9]+"
+                if [[ $value =~ $type_int ]]
+                then
+                      type_pk="yes"      
+                fi 
+           else
+                 type_char="[a-zA-Z]+"
+                if [[ $value =~ $type_char ]]
+                then
+                      type_pk="yes"      
+                fi 
+           fi
+           
+                   
+           if [[ $checkpk == "yes" ]] && [[ $type_pk = "yes"  ]]
+             then 
+                 p_k="yes"
+                  values[0]="$value"
+             else
+                  echo "error , check that data type is identical and the primary key is unique , enter agin  "
+                   checkpk=" "
+                   let type_pk="no" 
+           fi 
+     done 
+     
+     
+     type=""
+     x=1
+     #echo "$x"
+     while [ $x -lt  $num_fild ]
+     do
+       echo "enter ${col_name[x]} and data type ${data_name[x]}"
+       read value
+       type=${data_name[x]}
+       typevalu=""
+        case $value in
+                +([0-9])) typevalu="int" 
+                ;;
+                +([A-Za-z])) typevalu="char"
+                ;;	  
+                *) typevalu="not match"
+                ;;
+        esac;  
+        if [ $typevalu == $type  ]
+        then
+            values[x]=":$value"
+            let x=$x+1
+        else
+            echo "data type not match enter agin"
+        fi       
+    done
+    echo "${values[*]}"
+    echo "${values[*]}" >> ../database/$name_database/$name_table
+else
+    echo "the table not found"
+fi
+
+
+shopt -u extglob; 

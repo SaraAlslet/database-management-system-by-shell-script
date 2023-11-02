@@ -1,0 +1,17 @@
+#!/bin/bash
+#===========colors=========
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+#===================
+echo "Enter Current Database Name:"
+read name
+echo "Enter New Database Name:"
+read newName
+if [[ $? == 0 ]]
+then
+mv ../database/$name ../database/$newName
+echo "$(tput setaf 2) Database Renamed Successfully ${reset}"
+else
+echo "$(tput setaf 1) Error choose anther name of Database ${reset}"
+fi

@@ -1,0 +1,14 @@
+#!/bin/bash
+#===========colors=========
+red=`tput setaf 1`
+green=`tput setaf 2`
+reset=`tput sgr0`
+echo "enter table name"
+read name
+if [ -f "../database/$name_database/$name" ]
+then
+rm  ../database/$name_database/$name
+echo "$(tput setaf 2) table is deleted ${reset}"
+else
+echo "$(tput setaf 1) table is not found ${reset}"
+fi
